@@ -1,0 +1,14 @@
+"0","patents <- read_csv(paste0(data_dir, '3_professional/patents.csv'))
+"
+"2","Parsed with column specification:
+cols(
+  Year = [32mcol_double()[39m,
+  Title = [31mcol_character()[39m,
+  Authors = [31mcol_character()[39m,
+  `Patent number` = [31mcol_character()[39m,
+  Status = [31mcol_character()[39m,
+  Link = [31mcol_character()[39m,
+  review_period = [32mcol_double()[39m,
+  temp_link = [31mcol_character()[39m
+)
+"
