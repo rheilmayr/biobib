@@ -1,12 +1,11 @@
 ---
-title: "Preliminary bio-bibliography"
+title: "Bio-bibliography"
 author:  | 
   | Robert Heilmayr
   | Assistant Professor V
   | University of California, Santa Barbara
 date:    | 
-  <!-- | Filed on: `r format(Sys.time(), '%B %d, %Y')` -->
-  | Filed on: April 22, 2023
+  | Filed on: June 30, 2023
   | Last update filed on: June 30, 2021
   | This update refers to the period: July 1, 2021 to June 30, 2023
 output: pdf_document
@@ -20,7 +19,7 @@ header-includes:
 subparagraph: yes
 geometry: margin=1in
 
-# | This update refers to the period: September 16, 2017 to `r format(Sys.time(), '%B %d, %Y')`
+
 
 
 ---
@@ -29,6 +28,8 @@ options(tinytex.verbose = TRUE)
 ```
 
 ```{r setup, include=FALSE}
+  # | Filed on: `r format(Sys.time(), '%B %d, %Y')`
+
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(knitr)
@@ -36,6 +37,8 @@ library(kableExtra)
 library(magrittr)
 library(readxl)
 library(scales)
+options(knitr.kable.NA = '')
+
 
 data_dir  <- 'D:/dev/biobib/data/'
 na_replace <- function(table) {
@@ -77,6 +80,7 @@ university <- read_excel(paste0(data_dir, '4_service/university.xlsx'))
 # public <- read_csv(paste0(data_dir, '4_service/public.csv'))
 public_writing <- read_excel(paste0(data_dir, '4_service/public_writing.xlsx'))
 media <- read_excel(paste0(data_dir, '4_service/media.xlsx'))
+public_speaking <- read_excel(paste0(data_dir, '4_service/public_speaking.xlsx'))
 
 rperiod = 4
 ```
@@ -90,7 +94,8 @@ Claremont McKenna College, B.A., Environmental Studies, Economics and Politics; 
 ## Areas of specialization
 Environmental economics; Ecological economics; Land system science; Remote sensing; Geography; Conservation biology
 
-## Previous and currently held academic or professional appointments
+## Academic appointments
+<!-- ## Previous and currently held academic or professional appointments -->
 2017 - Present, Assistant Professor, University of California, Santa Barbara, Bren School of Environmental Science and Managment \newline
 2016 - Present, Assistant Professor, University of California, Santa Barbara, Environmental Studies Program \newline
 2016, Postdoctoral Fellow, University of Hawaii, Mānoa, Department of Natural Resources and Environmental Management
@@ -121,9 +126,9 @@ research <- research %>%
   mutate(Title = ifelse(Category=="Book", 
                         str_c("\\textit{", Title, '}'),
                         str_c("``", Title, "''")),
-         `Title and authors` = ifelse(is.na(temp_link),
+         `Title and authors` = ifelse(is.na(Link),
                                       str_c(Title, ", ", Authors),
-                                      str_c("\\href{", temp_link, "}{", Title, " ", Authors, "}")),
+                                      str_c("\\href{", Link, "}{", Title, " ", Authors, "}")),
          `N.` = as.character(`N.`))
 
 research[research$prev_status==3,] %<>% mutate(N. = paste0(N., "*")) 
@@ -179,36 +184,39 @@ inpress <- inpress %>%
 inpress %>%
   kable("latex", booktabs = TRUE, longtable = TRUE, escape = FALSE, linesep = "") %>%
   kable_styling(latex_options = c("repeat_header")) %>%
-  column_spec(c(1), width = "2em") %>%
+  column_spec(c(1), width = "5em") %>%
   column_spec(c(2), width = "3em") %>%
-  column_spec(c(3), width = "23em") %>%
-  column_spec(c(4), width = "12em") %>%
+  column_spec(c(3), width = "18em") %>%
+  column_spec(c(4), width = "10em") %>%
   column_spec(c(5), width = "3em") %>%
   footnote(symbol =  c("Previously listed as work in press", "Previously listed as work submitted",
                      "Previously listed as work in progress", "Denotes equal contribution"),
          symbol_manual = c("*", "**", "***", "$\\\\dagger$"))
 ```
 
-<!-- ## Work submitted -->
-<!-- ```{r submitted, echo=FALSE} -->
-<!-- submitted <- research %>%  -->
-<!--   filter(current_status==2) -->
+## Work submitted
+```{r submitted, echo=FALSE}
+submitted <- research %>%
+  filter(current_status==2)
 
-<!-- submitted <- submitted %>% -->
-<!--   select("N.", "Title and authors", "Publisher", "Category") -->
-<!-- submitted %>% -->
-<!--   kable("latex", booktabs = TRUE, longtable = TRUE, escape = FALSE, linesep = "\\addlinespace") %>% -->
-<!--   kable_styling(latex_options = c("repeat_header")) %>% -->
-<!--   column_spec(c(1), width = "2em") %>% -->
-<!--   column_spec(c(2), width = "22em") %>% -->
-<!--   column_spec(c(3), width = "12em") %>% -->
-<!--   column_spec(c(4), width = "3em") -->
-<!-- ``` -->
+submitted <- submitted %>%
+  select("N.", "Title and authors", "Publisher", "Category")
+submitted %>%
+  kable("latex", booktabs = TRUE, longtable = TRUE, escape = FALSE, linesep = "\\addlinespace") %>%
+  kable_styling(latex_options = c("repeat_header")) %>%
+  column_spec(c(1), width = "2em") %>%
+  column_spec(c(2), width = "23em") %>%
+  column_spec(c(3), width = "12em") %>%
+  column_spec(c(4), width = "5em")
+```
+
+
 \newpage
 # Part II. Teaching
-The course load for Heilmayr was 3.5 course equivalents per year through the 2021-2022 academic year, and 3 course equivalents per year beginning in the 2022-2023 academic year. Given his split appointment (75% Environmental Studies, 25% Bren), these teaching responsibilities are divided across the two departments. In the 2021-2022 academic year, he was expected to teach 2.625 course equivalents in ES and 0.875 course equivalents in Bren. Beginning in the 2022-2023 academic year, the agreed upon division changed to 2 course equivalents in ES, and 1 course equivalent in ES. 
+## Teaching load
+My expected course load was 3.5 course equivalents per year during the 2021-2022 academic year, and 3 course equivalents per year beginning in the 2022-2023 academic year. Given my split appointment (75% Environmental Studies, 25% Bren), these teaching responsibilities are divided across the two departments. In the 2021-2022 academic year, I was expected to teach 2.625 course equivalents in ES and 0.875 course equivalents in Bren. Beginning in the 2022-2023 academic year, the agreed upon division changed to 2 course equivalents in ES, and 1 course equivalent in Bren. 
 
-Heilmayr entered this review period with 0.625 banked course equivalents in ES and 0.17 course equivalents in Bren. In the 2021-2022 academic year, Heilmayr taught 2 course equivalents for Environmental Studies and 1.3  course equivalents for Bren. In the 2022-2023 academic year, Heilmayr taught 2 course equivalents for Environmental Studies and 0.9 course equivalents for Bren. Based on his teaching during this period, and his prior teaching overload, Heilmayr carries forward 0.495 teaching credits towards his future teaching obligations in the Bren School.
+I entered this review period with prior overload carry-overs of 0.625 course equivalents in ES and 0.17 course equivalents in Bren. In the 2021-2022 academic year, I taught 2 course equivalents for Environmental Studies and 1.3  course equivalents for Bren. In the 2022-2023 academic year, I taught 2 course equivalents for Environmental Studies and 0.9 course equivalents for Bren. Based on my teaching during this period, and my prior teaching overload, I carry forward 0.495 teaching credits towards my future teaching obligations in the Bren School.
 
 ## Catalog courses
 ```{r teaching, echo=FALSE}
@@ -221,12 +229,16 @@ teaching %<>%
          "Class type" = Type)
 
 teaching %<>%
+  mutate("ESCI/Written evals. avail." = ifelse(is.na(ESCI_link), `ESCI/Written evals. avail.`,
+                                      str_c("\\href{", ESCI_link, "}{", `ESCI/Written evals. avail.`, "}")))
+
+teaching %<>%
   filter(review_period==rperiod) %>%
   select(Qtr., Course, "Class type", Units, "Hrs/Week", Enroll., "ESCI/Written evals. avail.")
 
 teaching %>%
   mutate_all(linebreak) %>%
-  kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
+  kable("latex", booktabs = TRUE, longtable = TRUE, escape = FALSE, linesep = "\\addlinespace") %>%
   kable_styling(latex_options = c("repeat_header")) %>%
   column_spec(c(2), width = "17em") %>%
   column_spec(c(7), width = "6em")
@@ -251,14 +263,17 @@ undergrads <- students %>%
   filter(Type=="Undergraduate",
          review_period==rperiod) %>%
   rename(Student = Name) %>% 
-  select("Student", "Year completed", "Project type", "Optional info")
+  arrange(`Year completed`) %>% 
+  select("Student", "Year completed", "Project type")
+  # select("Student", "Year completed", "Project type", "Optional info")
 undergrads %>%
   kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
   kable_styling(latex_options = c("repeat_header")) %>%
-  column_spec(c(1), width = "8em") %>%
+  column_spec(c(1), width = "15em") %>%
   column_spec(c(2), width = "8em") %>%
-  column_spec(c(3), width = "8em") %>%
-  column_spec(c(4), width = "17em")
+  column_spec(c(3), width = "15em") 
+# %>%
+#   column_spec(c(4), width = "17em")
 ```
 
 ## Masters advising
@@ -267,14 +282,18 @@ masters <- students %>%
   filter(Type=="Masters",
          review_period==rperiod) %>%
   rename(Student = Name) %>% 
-  select("Student", "Year completed", "Chair/Member", "Optional info")
+  arrange(`Year completed`) %>% 
+  select("Student", "Year completed", "Chair/Member")
+  # select("Student", "Year completed", "Chair/Member", "Optional info")
+
 masters %>%
   kable("latex", booktabs = TRUE, longtable = TRUE) %>%
   kable_styling(latex_options = c("repeat_header")) %>%
   column_spec(c(1), width = "8em") %>%
   column_spec(c(2), width = "8em") %>%
-  column_spec(c(3), width = "8em") %>%
-  column_spec(c(4), width = "17em")
+  column_spec(c(3), width = "8em") 
+# %>%
+#   column_spec(c(4), width = "17em")
 ```
 
 ## Ph.D. committees
@@ -282,46 +301,58 @@ masters %>%
 phds <- students %>%
   filter(Type=="Ph.D.", review_period==rperiod) %>%
   rename(Student = Name) %>% 
-  select("Student", "Year completed", "Chair/Member", "Optional info") 
+  arrange(`Year completed`) %>% 
+  select("Student", "Year completed", "Chair/Member") 
+  # select("Student", "Year completed", "Chair/Member", "Optional info") 
+
 phds %>%
   kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
   kable_styling(latex_options = c("repeat_header")) %>% 
-  column_spec(c(4), width = "20em") %>%
-  column_spec(c(1), width = "8em") %>%
+  # column_spec(c(4), width = "20em") %>%
+  column_spec(c(1), width = "15em") %>%
   column_spec(c(2), width = "8em") %>%
-  column_spec(c(3), width = "8em") %>%
-  column_spec(c(4), width = "17em")
+  column_spec(c(3), width = "8em")
+# %>%
+#   column_spec(c(4), width = "17em")
 
 ```
-
 ## Postdoctoral scholars supervised
 ``` {r postdocs, echo = FALSE}
 postdocs <- students %>%
   filter(Type=="postdoc", review_period==rperiod) %>%
-  select(Name, Years, "Optional info")
+  arrange(end_date, start_date) %>% 
+  select(Name, Years)
+  # select(Name, Years, "Optional info")
+
 postdocs %>%
   kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
-  kable_styling(latex_options = c("repeat_header")) %>%
-  column_spec(c(3), width = "20em")
+  kable_styling(latex_options = c("repeat_header"))
+# %>%
+#   column_spec(c(3), width = "20em")
 ```
+
 
 ## Other scholars supervised
 ``` {r scholars, echo = FALSE}
 other_scholars <- students %>%
   filter(Type=="other_scholar", review_period==rperiod) %>%
-  select(Name, Years, "Project type", "Optional info")
+  arrange(end_date, start_date) %>% 
+  rename(Position = "Project type") %>% 
+  select(Name, Years, Position)
+  # select(Name, Years, "Project type", "Optional info")
 other_scholars %>%
   kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
   kable_styling(latex_options = c("repeat_header")) %>%
-  column_spec(c(1), width = "8em") %>%
+  column_spec(c(1), width = "15em") %>%
   column_spec(c(2), width = "8em") %>%
-  column_spec(c(3), width = "8em") %>%
-  column_spec(c(4), width = "17em")
+  column_spec(c(3), width = "15em")
+# %>%
+#   column_spec(c(4), width = "17em")
 ```
 
 ## Other teaching contributions
 ### Conservation Economics Lab meetings
-Coordinated a weekly research group seminar series for my lab.
+Ran a weekly research seminar series for my lab.
 
 ### Bren School group projects
 ```{r gps, echo=FALSE}
@@ -369,7 +400,7 @@ guest_lectures %>%
 <!--   kable_styling(latex_options = c("repeat_header")) -->
 <!-- ``` -->
 
-
+\newpage
 # Part III. Professional activities
 ## Lectures presented
 ```{r lectures, echo=FALSE}
@@ -389,26 +420,43 @@ lectures %>%
 
 ## Grants and contracts
 ```{r grants, echo=FALSE}
-grants <- grants %>% 
+grants <- grants %>%
+  filter(review_period == rperiod) %>%
+  filter(outcome == "Accepted")
+
+n_grants <- dim(grants)[1]
+cont_fund <- grants %>%
+  filter(`New/Cont.` == "Cont.")
+new_fund <- grants %>% 
+  filter(`New/Cont.` == "New")
+
+summary_grants <- tibble("Title" = c("Total continuing funding", "Total new funding", "Total funding during review"),
+                         "amount" = c(sum(cont_fund$amount), sum(new_fund$amount), sum(cont_fund$amount, new_fund$amount)),
+                         "personal_share" = c(sum(cont_fund$personal_share), sum(new_fund$personal_share), sum(cont_fund$personal_share, new_fund$personal_share)))
+
+grants <- grants %>%
+  bind_rows(summary_grants) %>% 
   mutate(`Amount (PI share)` = paste0(comma(amount), "\n(", comma(personal_share), ")"),
          end_date = replace(end_date, end_date==start_date, NA))
 grants$Years = apply(grants %>% select(start_date, end_date), 1, function(x) paste(na.omit(x), collapse="-"))
 
-grants <- grants %>%
-  filter(review_period == rperiod) %>%
-  filter(outcome == "Accepted") %>% 
-  select(Years, Source, Title, "Amount (PI share)", Role, `New/Cont.`)
-
 grants %>%
+  select(Years, Source, Title, "Amount (PI share)", Role, `New/Cont.`) %>% 
   mutate_all(linebreak) %>% 
   kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace", escape = F) %>%
   kable_styling(latex_options = c("repeat_header")) %>%
-  # kable_styling(latex_options = c("striped")) %>% 
+  # kable_styling(latex_options = c("striped")) %>%
   column_spec(c(1), width = "4em") %>%
   column_spec(c(2), width = "7em") %>%
   column_spec(c(3), width = "13em") %>%
   column_spec(c(4), width = "5em") %>%
-  column_spec(c(6), width = "3em")
+  column_spec(c(5), width = "5em") %>%
+  column_spec(c(6), width = "3em") %>% 
+  row_spec(n_grants, hline_after = T) %>% 
+  row_spec(n_grants + 1, bold=T) %>% 
+  row_spec(n_grants + 2, bold=T) %>% 
+  row_spec(n_grants + 3, bold=T)
+
 
 
   # mutate_all(linebreak) %>%
@@ -436,7 +484,6 @@ grants %>%
 <!--   column_spec(c(3), width = "11em") %>% -->
 <!--   column_spec(c(4), width = "10em") -->
 <!-- ``` -->
-
 
 ## Reviewing and refereeing activity
 ``` {r reviewing, echo=FALSE}
@@ -496,22 +543,27 @@ prof_appointments %>%
 <!--   column_spec(c(5), width = "5em")  -->
 <!-- ``` -->
 
+\newpage
 # Part IV. Service
 ## University service
 ``` {r uni_service, echo=FALSE}
 university$`Academic year` <- university %>%
   select(start_date, end_date) %>%
   apply(1, function(x) paste(na.omit(x), collapse="-"))
-university$`Type of service` <- apply(university %>% select(department, committee), 1, function(x) paste(na.omit(x), collapse=", "))
+# university$`Type of service` <- apply(university %>% select(department, committee), 1, function(x) paste(na.omit(x), collapse=", "))
+university <- university %>% 
+  rename(`Type of service` = committee, 
+         Level = level)
 
 university <- university %>%
   filter(review_period == rperiod) %>%
-  select("Academic year", Position, "Type of service")
+  select("Academic year", Position, "Type of service", Level)
 
 university %>%
   kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
   kable_styling(latex_options = c("repeat_header")) %>%
-  column_spec(c(3), width = "30em") 
+  column_spec(c(3), width = "15em") %>% 
+  column_spec(c(4), width = "15em")
 ```
 
 ## Public service appointments
@@ -553,6 +605,25 @@ public_writing %>%
   column_spec(c(3), width = "8em") %>%
   column_spec(c(4), width = "8em")
 ```
+
+## Public speaking
+``` {r public_speaking, echo=FALSE}
+public_speaking$`Meeting/Place` <-  apply(public_speaking %>% select(Organization, Meeting, Location), 1, function(x) paste(na.omit(x), collapse=", "))
+
+public_speaking <- public_speaking %>%
+  filter(review_period == rperiod) %>% 
+  select(Date, Title, "Meeting/Place")
+
+public_speaking %>%
+  kable("latex", booktabs = TRUE, longtable = TRUE, linesep = "\\addlinespace") %>%
+  kable_styling(latex_options = c("repeat_header")) %>%
+  column_spec(c(1), width = "8em") %>%
+  column_spec(c(2), width = "16em") %>%
+  column_spec(c(3), width = "17em")
+
+
+```
+
 
 
 ## Selected public media engagement
