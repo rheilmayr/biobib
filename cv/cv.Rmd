@@ -1,0 +1,142 @@
+---
+name: Robert
+surname: Heilmayr
+position: "Assistant Professor"
+address: "University of California, Santa Barbara"
+phone: 817.228.0609
+www: conservation-econ.com
+email: "rheilmayr@ucsb.edu"
+twitter: econ_servation
+github: rheilmayr
+date: "`r format(Sys.time(), '%B %Y')`"
+output: vitae::moderncv
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+```
+
+```{r imports, include=FALSE}
+# knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(magrittr)
+library(readxl)
+library(scales)
+
+data_dir  <- 'D:/dev/biobib/data/'
+na_replace <- function(table) {
+  table <- table %>% 
+    replace(is.na(.), "")
+  return(table)
+}
+
+# page_width <- round((6.5 / 0.13837) - 8) # Convert page width to em and reduce a bit for padding
+
+# mutate_cond <- function(.data, condition, ..., new_init = NA, envir = parent.frame()) {
+#   # Initialize any new variables as new_init
+#   new_vars <- substitute(list(...))[-1]
+#   new_vars %<>% sapply(deparse) %>% names %>% setdiff(names(.data))
+#   .data[, new_vars] <- new_init
+# 
+#   condition <- eval(substitute(condition), .data, envir)
+#   .data[condition, ] <- .data %>% filter(condition) %>% mutate(...)
+#   .data
+# }
+
+research <- read_excel(paste0(data_dir, '1_research/research.xlsx'))
+
+students <- read_excel(paste0(data_dir, '2_teaching/students.xlsx'))
+teaching <- read_excel(paste0(data_dir, '2_teaching/teaching.xlsx'))
+guest_lectures <- read_excel(paste0(data_dir, '2_teaching/guest_lectures.xlsx'))
+gps <- read_excel(paste0(data_dir, '2_teaching/gps.xlsx'))
+mentoring <- read_excel(paste0(data_dir, '2_teaching/mentoring.xlsx'))
+
+grants <- read_excel(paste0(data_dir, '3_professional/grants.xlsx'))  ## to update
+lectures <- read_excel(paste0(data_dir, '3_professional/lectures.xlsx'))
+reviewing <- read_excel(paste0(data_dir, '3_professional/reviewing.xlsx'))
+appointments <- read_excel(paste0(data_dir, '3_professional/appointments.xlsx'))
+organizing <- read_excel(paste0(data_dir, '3_professional/organizing.xlsx'))
+patents <- read_excel(paste0(data_dir, '3_professional/patents.xlsx'))
+
+
+university <- read_excel(paste0(data_dir, '4_service/university.xlsx'))
+public_writing <- read_excel(paste0(data_dir, '4_service/public_writing.xlsx'))
+media <- read_excel(paste0(data_dir, '4_service/media.xlsx'))
+public_speaking <- read_excel(paste0(data_dir, '4_service/public_speaking.xlsx'))
+```
+
+
+# Education
+
+```{r}
+library(tibble)
+tribble(
+  ~ Degree, ~ Year, ~ Institution,
+  "Ph.D. Environment and Resources", "2016", "Stanford University",
+  "M.A., Economics", "2014", "Stanford University",
+  "B.A., Environmental Studies, Economics and Politics; Politics, Philosophy and Economics", "2006", "Claremont McKenna College"
+) %>% 
+  detailed_entries(Degree, Year, Institution)
+```
+
+# Publications
+```{r research, echo=FALSE}
+research[research$N.==15,] %<>% mutate(Authors = Authors %>% 
+                                         str_replace("Carlson", "Carlson$^{\\\\dagger}$") %>%
+                                         str_replace("Heilmayr", "Heilmayr$^{\\\\dagger}$")) 
+
+research <- research %>% 
+  mutate(Year = as.character(Year))
+
+research$Publisher <- research %>%
+  mutate(journal = str_c("\\textit{", research$journal, "}")) %>%
+  select(journal, publisher, issue) %>%
+  apply(1, function(x) paste(na.omit(x), collapse=", "))
+
+research <- research %>%
+  mutate(Title = ifelse(Category=="Book", 
+                        str_c("\\textit{", Title, '}'),
+                        str_c("``", Title, "''")),
+         `Title and authors` = ifelse(is.na(temp_link),
+                                      str_c(Title, ", ", Authors),
+                                      str_c("\\href{", temp_link, "}{", Title, " ", Authors, "}")),
+         `N.` = as.character(`N.`))
+
+
+publications <- research %>% 
+  select()
+
+
+
+```
+
+
+
+# Nobel Prizes
+
+```{r}
+tribble(
+  ~Year, ~Type, ~Desc,
+  1903, "Physics", "Awarded for her work on radioactivity with Pierre Curie and Henri Becquerel",
+  1911, "Chemistry", "Awarded for the discovery of radium and polonium"
+) %>% 
+  brief_entries(
+    glue::glue("Nobel Prize in {Type}"),
+    Year, 
+    Desc
+  )
+```
+
+# Publications
+
+```{r}
+library(dplyr)
+knitr::write_bib(c("vitae", "tibble"), "packages.bib")
+
+bibliography_entries("packages.bib") %>%
+  arrange(desc(author$family), issued)
+```
+
